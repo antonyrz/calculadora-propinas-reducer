@@ -1,8 +1,5 @@
 import { MenuItem, OrderItem } from "../types";
 
-
-
-
 export type OrderActions = 
     {type: 'add-item', payload: {item : MenuItem}} |
     {type: 'remove-item', payload: {item: MenuItem['id']}} |
@@ -27,10 +24,25 @@ export const orderReducer = (
 
     if(action.type === 'add-item'){
 
-        
+        const item = action.payload.item;
+        let updatedOrder : OrderItem[] = [];
+
+        const itemExist = state.order.find(orderItem => orderItem.id === item.id)
+
+        if(itemExist) {
+            updatedOrder = state.order.map( orderItem => orderItem.id === item.id ? 
+                {...orderItem, quantity: orderItem.quantity + 1 } : 
+                orderItem
+            )
+        } else {
+            const newItem : OrderItem = {...item, quantity: 1}
+            updatedOrder = [... state.order, newItem];
+        }
+
 
         return {
-            ...state
+            ...state,
+            order: updatedOrder
         }
     }
 
