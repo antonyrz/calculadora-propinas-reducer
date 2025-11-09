@@ -48,28 +48,34 @@ export const orderReducer = (
 
     if(action.type === 'remove-item'){
 
+        const itemId = action.payload.item;
 
+        console.log(itemId);
+
+        const updateOrder = state.order.filter(orderItem => orderItem.id !== itemId);
 
         return {
-            ...state
+            ...state,
+            order: updateOrder
         }
     }
 
     if(action.type === "place-order"){
 
-
-
         return {
-            ...state
+            ...state,
+            order: [],
+            tip: 0
         }
     }
 
     if(action.type === 'add-tip'){
 
-
+        const tip = action.payload.value;
 
         return {
-            ...state
+            ...state,
+            tip
         }
     }
 
